@@ -11,17 +11,15 @@
   :root {
     --work-bg: #22c55e;
     --rest-bg: #ef4444;
+    --prep-bg: #f59e0b;
     --idle-bg: #1f2937;
     --done-bg: #a855f7;
     --reps-bg: #0ea5e9;
     --card: rgba(255,255,255,0.08);
-    --card-strong: rgba(255,255,255,0.16);
   }
   * { box-sizing: border-box; }
   html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+    margin: 0; padding: 0; height: 100%;
     background: var(--idle-bg);
     color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -37,6 +35,7 @@
   }
   body.state-work { background: var(--work-bg); }
   body.state-rest { background: var(--rest-bg); }
+  body.state-prep { background: var(--prep-bg); }
   body.state-done { background: var(--done-bg); }
   body.state-reps { background: var(--reps-bg); }
 
@@ -59,10 +58,7 @@
     opacity: 0.6;
     border-bottom: 3px solid transparent;
   }
-  nav#tabs button.active {
-    opacity: 1;
-    border-bottom-color: #fff;
-  }
+  nav#tabs button.active { opacity: 1; border-bottom-color: #fff; }
 
   .view {
     flex: 1;
@@ -74,14 +70,8 @@
   .view.hidden { display: none; }
 
   /* Timer view */
-  #view-timer {
-    align-items: center;
-    justify-content: space-between;
-  }
-  #exerciseSetup {
-    width: 100%;
-    margin-bottom: 12px;
-  }
+  #view-timer { align-items: center; justify-content: space-between; }
+  #exerciseSetup { width: 100%; margin-bottom: 12px; }
   #exerciseName {
     width: 100%;
     padding: 14px 16px;
@@ -93,9 +83,7 @@
     border-radius: 12px;
     text-align: center;
   }
-  #exerciseName:disabled {
-    background: rgba(255,255,255,0.85);
-  }
+  #exerciseName:disabled { background: rgba(255,255,255,0.85); }
   #timerCore {
     flex: 1;
     width: 100%;
@@ -118,17 +106,12 @@
     font-variant-numeric: tabular-nums;
     text-shadow: 0 4px 24px rgba(0,0,0,0.25);
   }
-  #round {
-    font-size: 20px;
-    font-weight: 600;
-    opacity: 0.9;
-  }
-  #controls {
-    width: 100%;
-    display: flex;
-    gap: 12px;
-    margin-top: 16px;
-  }
+  #round { font-size: 20px; font-weight: 600; opacity: 0.9; }
+
+  #controls { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+  #controls-primary { width: 100%; }
+  #controls-secondary { display: flex; gap: 10px; width: 100%; }
+
   .btn {
     flex: 1;
     padding: 18px 12px;
@@ -142,18 +125,14 @@
     border-radius: 14px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     cursor: pointer;
+    width: 100%;
   }
   .btn:active { transform: translateY(1px); }
-  .btn.secondary {
-    background: rgba(255,255,255,0.18);
-    color: #fff;
-  }
+  .btn.secondary { background: rgba(255,255,255,0.18); color: #fff; }
+  .btn.hidden { display: none; }
 
   /* History */
-  #view-history h2 {
-    margin: 4px 0 12px;
-    font-size: 22px;
-  }
+  #view-history h2 { margin: 4px 0 12px; font-size: 22px; }
   .exercise-item {
     background: var(--card);
     border-radius: 12px;
@@ -161,136 +140,54 @@
     margin-bottom: 10px;
     cursor: pointer;
   }
-  .exercise-item h3 {
-    margin: 0 0 4px;
-    font-size: 17px;
-  }
-  .exercise-item .meta {
-    font-size: 13px;
-    opacity: 0.75;
-  }
-  .empty {
-    opacity: 0.6;
-    text-align: center;
-    padding: 40px 20px;
-    font-size: 15px;
-  }
+  .exercise-item h3 { margin: 0 0 4px; font-size: 17px; }
+  .exercise-item .meta { font-size: 13px; opacity: 0.75; }
+  .empty { opacity: 0.6; text-align: center; padding: 40px 20px; font-size: 15px; }
   #backToList {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 16px;
-    padding: 6px 0;
-    cursor: pointer;
-    text-align: left;
-    align-self: flex-start;
+    background: none; border: none; color: #fff;
+    font-size: 16px; padding: 6px 0; cursor: pointer;
+    text-align: left; align-self: flex-start;
   }
   #trendChart {
-    width: 100%;
-    max-width: 480px;
-    height: auto;
-    background: var(--card);
-    border-radius: 12px;
-    margin: 12px 0;
+    width: 100%; max-width: 480px; height: auto;
+    background: var(--card); border-radius: 12px; margin: 12px 0;
   }
   .session-row {
     background: var(--card);
-    padding: 10px 14px;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    font-size: 14px;
+    padding: 10px 14px; border-radius: 10px;
+    margin-bottom: 8px; font-size: 14px;
   }
-  .session-row .date {
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-  .session-row .reps {
-    opacity: 0.85;
-    font-variant-numeric: tabular-nums;
-  }
-  .session-row .total {
-    float: right;
-    font-weight: 700;
-  }
+  .session-row .date { font-weight: 600; margin-bottom: 4px; }
+  .session-row .reps { opacity: 0.85; font-variant-numeric: tabular-nums; }
+  .session-row .total { float: right; font-weight: 700; }
 
   /* About */
   #view-about h2 { margin-top: 4px; font-size: 22px; }
   #view-about p { line-height: 1.5; opacity: 0.9; }
-  #view-about a.tip-link {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 14px 22px;
-    background: #fff;
-    color: #111;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 700;
-  }
 
   /* Modals */
   .modal {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0,0,0,0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px; z-index: 100;
   }
   .modal.hidden { display: none; }
   .modal-card {
-    background: #1f2937;
-    border-radius: 16px;
-    padding: 24px;
-    width: 100%;
-    max-width: 360px;
-    text-align: center;
+    background: #1f2937; border-radius: 16px; padding: 24px;
+    width: 100%; max-width: 360px; text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
-  .modal-card h3 {
-    margin: 0 0 12px;
-    font-size: 22px;
-  }
-  .modal-card p {
-    margin: 0 0 16px;
-    line-height: 1.5;
-    opacity: 0.9;
-    font-size: 15px;
-  }
+  .modal-card h3 { margin: 0 0 12px; font-size: 22px; }
+  .modal-card p { margin: 0 0 16px; line-height: 1.5; opacity: 0.9; font-size: 15px; }
   .modal-card input[type="number"] {
-    width: 100%;
-    padding: 16px;
-    font-size: 32px;
-    font-weight: 800;
-    text-align: center;
+    width: 100%; padding: 16px;
+    font-size: 32px; font-weight: 800; text-align: center;
     border: 2px solid rgba(255,255,255,0.2);
     background: rgba(255,255,255,0.1);
-    color: #fff;
-    border-radius: 12px;
-    margin-bottom: 16px;
+    color: #fff; border-radius: 12px; margin-bottom: 16px;
   }
   .modal-card .btn { width: 100%; margin-top: 8px; }
-  .modal-card a.tip-link {
-    display: block;
-    background: #22c55e;
-    color: #fff;
-    text-decoration: none;
-    padding: 16px;
-    border-radius: 12px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .modal-card .dismiss {
-    background: none;
-    border: none;
-    color: #fff;
-    opacity: 0.7;
-    padding: 12px;
-    font-size: 14px;
-    cursor: pointer;
-    width: 100%;
-  }
 </style>
 </head>
 <body class="state-idle">
@@ -313,8 +210,13 @@
       <div id="round">Round 0 / 8</div>
     </div>
     <div id="controls">
-      <button id="startBtn" class="btn">Start</button>
-      <button id="resetBtn" class="btn secondary">Reset</button>
+      <div id="controls-primary">
+        <button id="startBtn" class="btn">Start</button>
+      </div>
+      <div id="controls-secondary">
+        <button id="skipBtn" class="btn secondary hidden">Skip</button>
+        <button id="resetBtn" class="btn secondary">Reset</button>
+      </div>
     </div>
   </section>
 
@@ -336,9 +238,7 @@
   <section id="view-about" class="view hidden">
     <h2>About</h2>
     <p>Tabata Timer & Tracker is a free app. All your data is stored locally on your device — nothing is sent to any server.</p>
-    <p>If this app is useful to you, please consider leaving a tip to support development.</p>
-    <a id="aboutTipLink" class="tip-link" href="#" target="_blank" rel="noopener">💛 Tip the developer</a>
-    <p style="margin-top: 24px; font-size: 13px; opacity: 0.6;">App opens: <span id="openCountLabel">0</span></p>
+    <p>Your exercise history is grouped by exercise name and persists across sessions on the same device and browser. Use the History tab to track your progress over time.</p>
   </section>
 
   <!-- REPS MODAL -->
@@ -351,31 +251,20 @@
     </div>
   </div>
 
-  <!-- TIP MODAL -->
-  <div id="tipModal" class="modal hidden">
-    <div class="modal-card">
-      <h3>Enjoying the app? 💪</h3>
-      <p>Tabata Tracker is completely free and stores everything on your device. If it's helping you train, please consider leaving a tip.</p>
-      <a id="tipModalLink" class="tip-link" href="#" target="_blank" rel="noopener">💛 Tip the developer</a>
-      <button id="tipDismiss" class="dismiss">Maybe later</button>
-    </div>
-  </div>
-
 <script>
 (() => {
   // ===== CONFIG =====
-  // Replace this URL with your own tipping page (Buy Me a Coffee, Ko-fi, PayPal.me, Stripe link, etc.)
-  const TIP_URL = 'https://www.buymeacoffee.com/yourname';
-
   const ROUNDS = 8;
-  const WORK = 20;
-  const REST = 10;
-  const TIP_INTERVAL = 12;
+  const WORK   = 20;
+  const REST   = 10;
+  const PREP   = 10;
 
-  const LS_DATA  = 'tabata_data_v1';
-  const LS_OPENS = 'tabata_opens_v1';
+  const LS_DATA = 'tabata_data_v1';
 
   // ===== DATA =====
+  // Data is grouped by exercise name and persisted in localStorage.
+  // This works for both web visitors and the installed app — same origin,
+  // same storage key, so history is preserved across sessions.
   function loadData() {
     try {
       const d = JSON.parse(localStorage.getItem(LS_DATA));
@@ -421,31 +310,26 @@
   }
   const startBeep = () => beep(1000, 0.3, 'square', 0.35);
   const endBeep   = () => beep(500,  0.4, 'sine',   0.35);
+  const prepBeep  = () => beep(750,  0.15, 'sine',  0.2);
 
   // ===== ELEMENTS =====
-  const body         = document.body;
-  const phaseEl      = document.getElementById('phase');
-  const countEl      = document.getElementById('countdown');
-  const roundEl      = document.getElementById('round');
-  const startBtn     = document.getElementById('startBtn');
-  const resetBtn     = document.getElementById('resetBtn');
-  const exerciseInput= document.getElementById('exerciseName');
-  const exerciseList = document.getElementById('exerciseList');
-  const repsModal    = document.getElementById('repsModal');
-  const repsInput    = document.getElementById('repsInput');
-  const repsSubmit   = document.getElementById('repsSubmit');
-  const repRoundEl   = document.getElementById('repRound');
-  const tipModal     = document.getElementById('tipModal');
-  const tipModalLink = document.getElementById('tipModalLink');
-  const tipDismiss   = document.getElementById('tipDismiss');
-  const aboutTipLink = document.getElementById('aboutTipLink');
-  const openCountLbl = document.getElementById('openCountLabel');
-
-  tipModalLink.href = TIP_URL;
-  aboutTipLink.href = TIP_URL;
+  const body          = document.body;
+  const phaseEl       = document.getElementById('phase');
+  const countEl       = document.getElementById('countdown');
+  const roundEl       = document.getElementById('round');
+  const startBtn      = document.getElementById('startBtn');
+  const skipBtn       = document.getElementById('skipBtn');
+  const resetBtn      = document.getElementById('resetBtn');
+  const exerciseInput = document.getElementById('exerciseName');
+  const exerciseList  = document.getElementById('exerciseList');
+  const repsModal     = document.getElementById('repsModal');
+  const repsInput     = document.getElementById('repsInput');
+  const repsSubmit    = document.getElementById('repsSubmit');
+  const repRoundEl    = document.getElementById('repRound');
 
   // ===== TIMER STATE =====
-  let state = 'idle'; // idle | work | rest | reps | done
+  // States: idle | prep | work | rest | reps | done
+  let state = 'idle';
   let round = 0;
   let remaining = WORK;
   let intervalId = null;
@@ -456,14 +340,24 @@
   function render() {
     body.className = `state-${state}`;
     countEl.textContent = remaining;
-    roundEl.textContent = `Round ${Math.min(round, ROUNDS)} / ${ROUNDS}`;
-    if (state === 'work')      phaseEl.textContent = 'Work';
-    else if (state === 'rest') phaseEl.textContent = 'Rest';
-    else if (state === 'reps') phaseEl.textContent = 'Enter Reps';
-    else if (state === 'done') phaseEl.textContent = 'Done!';
-    else                       phaseEl.textContent = 'Ready';
+
+    if (state === 'prep') {
+      phaseEl.textContent = 'Get Ready';
+      roundEl.textContent = `Round 1 / ${ROUNDS}`;
+    } else {
+      if (state === 'work')      phaseEl.textContent = 'Work';
+      else if (state === 'rest') phaseEl.textContent = 'Rest';
+      else if (state === 'reps') phaseEl.textContent = 'Enter Reps';
+      else if (state === 'done') phaseEl.textContent = 'Done!';
+      else                       phaseEl.textContent = 'Ready';
+      roundEl.textContent = `Round ${Math.min(round, ROUNDS)} / ${ROUNDS}`;
+    }
 
     exerciseInput.disabled = (state !== 'idle' && state !== 'done');
+
+    // Skip button is visible during active timed phases only
+    const canSkip = state === 'prep' || state === 'work' || state === 'rest';
+    skipBtn.classList.toggle('hidden', !canSkip);
   }
 
   function clearTimer() {
@@ -482,7 +376,14 @@
   function tick() {
     remaining--;
     if (remaining <= 0) {
-      if (state === 'work') {
+      if (state === 'prep') {
+        // Prep finished — start round 1
+        round = 1;
+        state = 'work';
+        remaining = WORK;
+        startBeep();
+      } else if (state === 'work') {
+        // Work finished — prompt for reps
         endBeep();
         clearTimer();
         state = 'reps';
@@ -490,11 +391,15 @@
         showRepsModal();
         return;
       } else if (state === 'rest') {
+        // Rest finished — start next work interval
         round++;
         state = 'work';
         remaining = WORK;
         startBeep();
       }
+    } else if (state === 'prep' && remaining <= 3) {
+      // Tick beeps for the last 3 seconds of prep
+      prepBeep();
     }
     render();
   }
@@ -509,10 +414,9 @@
     }
     exerciseName = name;
     currentSession = { date: new Date().toISOString(), reps: [] };
-    round = 1;
-    state = 'work';
-    remaining = WORK;
-    startBeep();
+    round = 0;
+    state = 'prep';
+    remaining = PREP;
     render();
     startInterval();
     return true;
@@ -534,6 +438,36 @@
     render();
   }
 
+  // Skip advances to the next phase immediately:
+  //   prep  → work (round 1)
+  //   work  → reps prompt (same as running out of time)
+  //   rest  → work (next round)
+  function skipPhase() {
+    if (state === 'prep') {
+      clearTimer();
+      round = 1;
+      state = 'work';
+      remaining = WORK;
+      startBeep();
+      render();
+      startInterval();
+    } else if (state === 'work') {
+      clearTimer();
+      endBeep();
+      state = 'reps';
+      render();
+      showRepsModal();
+    } else if (state === 'rest') {
+      clearTimer();
+      round++;
+      state = 'work';
+      remaining = WORK;
+      startBeep();
+      render();
+      startInterval();
+    }
+  }
+
   function showRepsModal() {
     repRoundEl.textContent = round;
     // Pre-fill with previous round's reps if available
@@ -550,7 +484,7 @@
     repsModal.classList.add('hidden');
 
     if (round >= ROUNDS) {
-      // Session complete
+      // All rounds done — persist the session grouped under the exercise name
       saveSession(exerciseName, currentSession);
       state = 'done';
       remaining = 0;
@@ -573,7 +507,7 @@
       if (state === 'done') resetAll();
       beginSession();
     } else if (state === 'reps') {
-      // do nothing — modal must be submitted
+      // Modal must be submitted — ignore taps on Start
     } else if (running) {
       pauseTimer();
     } else {
@@ -581,19 +515,17 @@
     }
   });
   resetBtn.addEventListener('click', resetAll);
+  skipBtn.addEventListener('click', () => { ensureAudio(); skipPhase(); });
   repsSubmit.addEventListener('click', submitReps);
-  repsInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') submitReps();
-  });
+  repsInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitReps(); });
 
   function refreshExerciseDatalist() {
     exerciseList.innerHTML = getExerciseNames()
       .map(n => `<option value="${escapeHtml(n)}">`).join('');
   }
   function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    })[c]);
+    return String(s).replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]);
   }
 
   // ===== TABS / VIEWS =====
@@ -632,22 +564,16 @@
         '<div class="empty">No exercises yet.<br>Complete a Tabata session to start tracking.</div>';
       return;
     }
-    // Sort by most recent session date desc
-    names.sort((a, b) => {
-      const la = lastDate(data.exercises[a]);
-      const lb = lastDate(data.exercises[b]);
-      return lb - la;
-    });
+    // Sort by most recent session date, newest first
+    names.sort((a, b) => lastDate(data.exercises[b]) - lastDate(data.exercises[a]));
     exerciseListContainer.innerHTML = names.map(n => {
-      const ex = data.exercises[n];
-      const sessions = ex.sessions;
+      const sessions = data.exercises[n].sessions;
       const last = sessions[sessions.length - 1];
       const lastTotal = last.reps.reduce((a, b) => a + b, 0);
-      const lastWhen = formatDate(last.date);
       return `
         <div class="exercise-item" data-name="${escapeHtml(n)}">
           <h3>${escapeHtml(n)}</h3>
-          <div class="meta">${sessions.length} session${sessions.length===1?'':'s'} · last: ${lastTotal} reps · ${lastWhen}</div>
+          <div class="meta">${sessions.length} session${sessions.length === 1 ? '' : 's'} · last: ${lastTotal} reps · ${formatDate(last.date)}</div>
         </div>`;
     }).join('');
     exerciseListContainer.querySelectorAll('.exercise-item').forEach(el => {
@@ -660,8 +586,7 @@
     return s ? new Date(s.date).getTime() : 0;
   }
   function formatDate(iso) {
-    const d = new Date(iso);
-    return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+    return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
   }
 
   function showDetail(name) {
@@ -693,59 +618,32 @@
     const range = Math.max(max - min, 1);
     const n = totals.length;
     const step = n > 1 ? (W - 2 * P) / (n - 1) : 0;
-    const points = totals.map((t, i) => {
-      const x = n > 1 ? P + i * step : W / 2;
-      const y = H - P - ((t - min) / range) * (H - 2 * P);
-      return [x, y];
-    });
+    const points = totals.map((t, i) => [
+      n > 1 ? P + i * step : W / 2,
+      H - P - ((t - min) / range) * (H - 2 * P),
+    ]);
 
     let svg = '';
-    // Axes
     svg += `<line x1="${P}" y1="${H-P}" x2="${W-P}" y2="${H-P}" stroke="rgba(255,255,255,0.3)"/>`;
     svg += `<line x1="${P}" y1="${P}" x2="${P}" y2="${H-P}" stroke="rgba(255,255,255,0.3)"/>`;
-    // Y labels
     svg += `<text x="${P-6}" y="${P+4}" fill="#ccc" font-size="11" text-anchor="end">${max}</text>`;
     svg += `<text x="${P-6}" y="${H-P+4}" fill="#ccc" font-size="11" text-anchor="end">${min}</text>`;
-    // Line path
     if (points.length > 1) {
-      const d = points.map((p, i) => `${i===0?'M':'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+      const d = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
       svg += `<path d="${d}" fill="none" stroke="#22c55e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
     }
-    // Points
-    points.forEach((p, i) => {
+    points.forEach(p => {
       svg += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="5" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>`;
     });
-    // Axis title
     svg += `<text x="${W/2}" y="${H-6}" fill="#aaa" font-size="11" text-anchor="middle">Sessions over time →</text>`;
     trendChart.innerHTML = svg;
   }
 
   backToList.addEventListener('click', renderHistoryList);
 
-  // ===== TIP / OPEN COUNTER =====
-  function bumpOpenCount() {
-    const n = (parseInt(localStorage.getItem(LS_OPENS) || '0', 10) || 0) + 1;
-    localStorage.setItem(LS_OPENS, String(n));
-    return n;
-  }
-  function maybeShowTipModal() {
-    const n = bumpOpenCount();
-    openCountLbl.textContent = n;
-    if (n > 0 && n % TIP_INTERVAL === 0) {
-      // Show after a short delay so the app has rendered
-      setTimeout(() => tipModal.classList.remove('hidden'), 600);
-    }
-  }
-  tipDismiss.addEventListener('click', () => tipModal.classList.add('hidden'));
-  tipModalLink.addEventListener('click', () => {
-    // Hide modal after they tap (the link still opens in a new tab)
-    setTimeout(() => tipModal.classList.add('hidden'), 100);
-  });
-
   // ===== INIT =====
   refreshExerciseDatalist();
   render();
-  maybeShowTipModal();
 })();
 </script>
 </body>
