@@ -164,6 +164,16 @@
   /* About */
   #view-about h2 { margin-top: 4px; font-size: 22px; }
   #view-about p { line-height: 1.5; opacity: 0.9; }
+  #view-about .tip-link {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 14px 22px;
+    background: #fff;
+    color: #111;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 700;
+  }
 
   /* Modals */
   .modal {
@@ -239,6 +249,8 @@
     <h2>About</h2>
     <p>Tabata Timer & Tracker is a free app. All your data is stored locally on your device — nothing is sent to any server.</p>
     <p>Your exercise history is grouped by exercise name and persists across sessions on the same device and browser. Use the History tab to track your progress over time.</p>
+    <p>If this app is useful to you, consider leaving a tip to support development.</p>
+    <a class="tip-link" href="https://buymeacoffee.com/sossadok" target="_blank" rel="noopener">☕ Buy me a coffee</a>
   </section>
 
   <!-- REPS MODAL -->
@@ -642,6 +654,12 @@
   backToList.addEventListener('click', renderHistoryList);
 
   // ===== INIT =====
+  // Hide tip UI when running inside the Play Store TWA (start_url includes ?app=1)
+  if (new URLSearchParams(window.location.search).get('app') === '1') {
+    document.querySelector('.tip-link') && document.querySelector('.tip-link').remove();
+    document.querySelector('#view-about p:last-of-type') && document.querySelector('#view-about p:last-of-type').remove();
+  }
+
   refreshExerciseDatalist();
   render();
 })();
