@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="theme-color" content="#111" />
+<link rel="manifest" href="manifest.json" />
 <title>Tabata Timer & Tracker</title>
 <style>
   :root {
@@ -652,6 +653,11 @@
   }
 
   backToList.addEventListener('click', renderHistoryList);
+
+  // ===== SERVICE WORKER =====
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
 
   // ===== INIT =====
   // Hide tip UI when running inside the Play Store TWA (start_url includes ?app=1)
